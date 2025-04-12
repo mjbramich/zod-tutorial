@@ -1,5 +1,6 @@
 // CODE
 
+import { spec } from "node:test/reporters";
 import { expect, it } from "vitest";
 import { z } from "zod";
 
@@ -7,13 +8,16 @@ const StarWarsPerson = z.object({
   name: z.string(),
 });
 
-const StarWarsPeopleResults = z.unknown();
-//                            ^ 🕵️‍♂️
+const StarWarsPeopleResults = z.object({
+  results: z.array(StarWarsPerson),
+});
 
 export const fetchStarWarsPeople = async () => {
   const data = await fetch(
-    "https://www.totaltypescript.com/swapi/people.json",
+    "https://www.totaltypescript.com/swapi/people.json"
   ).then((res) => res.json());
+
+  console.log({ data });
 
   const parsedData = StarWarsPeopleResults.parse(data);
 
